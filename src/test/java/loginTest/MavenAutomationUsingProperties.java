@@ -21,16 +21,7 @@ public class MavenAutomationUsingProperties {
 	public void setUp() {
 		WebDriverManager.chromedriver().setup();
 		driver = new ChromeDriver();
-		// driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		Properties prop = new Properties();
-		try {
-			FileInputStream fis = new FileInputStream("./config.properties");
-			prop.load(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		driver.get(prop.getProperty("URL"));
+		driver.get(ConfigLoader2.getMyValue("URL"));
 	}
 
 	@AfterClass
@@ -40,15 +31,8 @@ public class MavenAutomationUsingProperties {
 
 	@Test
 	public void test() {
-		Properties prop = new Properties();
-		try {
-			FileInputStream fis = new FileInputStream("./config.properties");
-			prop.load(fis);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		driver.findElement(By.xpath("//input[@name='email']")).sendKeys(prop.getProperty("User"));
-		driver.findElement(By.xpath("//input[@name='passwd']")).sendKeys(prop.getProperty("Password"));
+		driver.findElement(By.xpath("//input[@name='email']")).sendKeys(ConfigLoader2.getMyValue("User"));
+		driver.findElement(By.xpath("//input[@name='passwd']")).sendKeys(ConfigLoader2.getMyValue("Password"));
 		driver.findElement(By.xpath("//i[@class='icon-lock left']")).click();
 	}
 }
